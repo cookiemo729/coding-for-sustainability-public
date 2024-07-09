@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Redirect output to stderr
+exec 1>&2
+
+red='\033[0;31m'
+green='\033[0;32m'
+nc='\033[0m'
+
+# Lint
+echo "Linting..."
+
+ruff check
+
+if [ $? != 0 ]; then
+  echo "${red}Lint failed.${nc}"
+  exit 1
+else
+  echo "${green}Lint passed.${nc}"
+fi
+
+# Format
+echo "Formatting..."
+
+ruff format --check
+
+if [ $? != 0 ]; then
+  echo "${red}Format failed.${nc}"
+  exit 1
+else
+  echo "${green}Format passed.${nc}"
+fi
